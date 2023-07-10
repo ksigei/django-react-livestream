@@ -37,12 +37,47 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels', # new
+    'livestream', # new
+    'rest_framework', # new
+    'rest_framework.authtoken', # new
+    'corsheaders', # new
 ]
+
+# corsheaders, rest_framework, rest_framework.authtoken, livestream, channels starts
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+ASGI_APPLICATION = 'config.routing.application' # new
+
+CHANNEL_LAYERS = { # new
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer'
+    }
+}
+
+# end
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    # corsheaders, rest_framework, rest_framework.authtoken, livestream, channels start here
+    'corsheaders.middleware.CorsMiddleware', # new
+    'django.middleware.common.CommonMiddleware', # new
+    'django.middleware.csrf.CsrfViewMiddleware', # new
+    'django.contrib.auth.middleware.AuthenticationMiddleware', # new
+    'django.contrib.messages.middleware.MessageMiddleware', # new
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', # new
+    # corsheaders, rest_framework, rest_framework.authtoken, livestream, channels end here
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
